@@ -1,0 +1,1001 @@
+{
+  "project": {
+    "name": "车辆管理系统（PC端Web）",
+    "modules": ["车辆管理", "事故处置"]
+  },
+  "entities": [
+    {
+      "name": "Vehicle",
+      "tableName": "car_vehicle",
+      "comment": "车辆档案表",
+      "fields": [
+        { "name": "id", "column": "id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": true, "unique": false, "defaultValue": null, "comment": "主键ID" },
+        { "name": "archiveNo", "column": "archive_no", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": false, "primaryKey": false, "unique": true, "defaultValue": null, "comment": "档案编号，系统自动生成" },
+        { "name": "plate", "column": "plate", "javaType": "String", "mysqlType": "VARCHAR", "length": 20, "nullable": false, "primaryKey": false, "unique": true, "defaultValue": null, "comment": "车牌号" },
+        { "name": "brand", "column": "brand", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "车辆品牌" },
+        { "name": "model", "column": "model", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "车辆型号" },
+        { "name": "vin", "column": "vin", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": true, "primaryKey": false, "unique": true, "defaultValue": null, "comment": "车架号VIN" },
+        { "name": "engineNo", "column": "engine_no", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "发动机号" },
+        { "name": "color", "column": "color", "javaType": "String", "mysqlType": "VARCHAR", "length": 20, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "车辆颜色" },
+        { "name": "useNature", "column": "use_nature", "javaType": "String", "mysqlType": "VARCHAR", "length": 20, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "使用性质：非营运/营运/公务" },
+        { "name": "seatCount", "column": "seat_count", "javaType": "Integer", "mysqlType": "INT", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": "5", "comment": "座位数" },
+        { "name": "category", "column": "category", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "车辆分类：生产运输车辆/厂内转运车辆/员工通勤车辆/商务接待车辆/特种作业车辆/应急保障车辆/清洁环卫车辆/私人车辆" },
+        { "name": "attribute", "column": "attribute", "javaType": "String", "mysqlType": "VARCHAR", "length": 30, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "车辆属性：自有车辆/租赁车辆/合作方临时借用" },
+        { "name": "status", "column": "status", "javaType": "Integer", "mysqlType": "TINYINT", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": "1", "comment": "车辆状态：1可用 2维修中 3保养中 4停用 5报废" },
+        { "name": "responsibleId", "column": "responsible_id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "责任人ID" },
+        { "name": "responsibleName", "column": "responsible_name", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "责任人姓名（冗余字段）" },
+        { "name": "deptId", "column": "dept_id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "所属部门ID" },
+        { "name": "deptName", "column": "dept_name", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "所属部门名称（冗余字段）" },
+        { "name": "contractStart", "column": "contract_start", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "承运服务合同开始日期" },
+        { "name": "contractEnd", "column": "contract_end", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "承运服务合同结束日期" },
+        { "name": "remarks", "column": "remarks", "javaType": "String", "mysqlType": "TEXT", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "备注" },
+        { "name": "inspectionDate", "column": "inspection_date", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "年检有效期" },
+        { "name": "inspectionStatus", "column": "inspection_status", "javaType": "Integer", "mysqlType": "TINYINT", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "车检状态：1有效 2逾期" },
+        { "name": "createTime", "column": "create_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "创建时间" },
+        { "name": "updateTime", "column": "update_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "更新时间" }
+      ],
+      "indexes": [
+        { "type": "uk", "name": "uk_archive_no", "columns": ["archive_no"] },
+        { "type": "uk", "name": "uk_plate", "columns": ["plate"] },
+        { "type": "idx", "name": "idx_status", "columns": ["status"] },
+        { "type": "idx", "name": "idx_dept_id", "columns": ["dept_id"] },
+        { "type": "idx", "name": "idx_responsible_id", "columns": ["responsible_id"] }
+      ],
+      "relations": [
+        { "type": "one-to-many", "target": "VehicleInsurance", "foreignKey": "vehicle_id" },
+        { "type": "one-to-many", "target": "VehicleAttachment", "foreignKey": "vehicle_id" }
+      ]
+    },
+    {
+      "name": "VehicleInsurance",
+      "tableName": "car_vehicle_insurance",
+      "comment": "车辆保险信息表",
+      "fields": [
+        { "name": "id", "column": "id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": true, "unique": false, "defaultValue": null, "comment": "主键ID" },
+        { "name": "vehicleId", "column": "vehicle_id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "车辆ID" },
+        { "name": "insuranceType", "column": "insurance_type", "javaType": "String", "mysqlType": "VARCHAR", "length": 20, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "险种：交强险/商业险/其他" },
+        { "name": "customTypeName", "column": "custom_type_name", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "自定义险种名称（险种为其他时填写）" },
+        { "name": "company", "column": "company", "javaType": "String", "mysqlType": "VARCHAR", "length": 100, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "投保公司" },
+        { "name": "startDate", "column": "start_date", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "保险开始日期" },
+        { "name": "endDate", "column": "end_date", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "保险结束日期" },
+        { "name": "status", "column": "status", "javaType": "Integer", "mysqlType": "TINYINT", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "保险状态：1有效 2即将到期 3逾期" },
+        { "name": "createTime", "column": "create_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "创建时间" },
+        { "name": "updateTime", "column": "update_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "更新时间" }
+      ],
+      "indexes": [
+        { "type": "idx", "name": "idx_vehicle_id", "columns": ["vehicle_id"] },
+        { "type": "idx", "name": "idx_end_date", "columns": ["end_date"] }
+      ],
+      "relations": [
+        { "type": "many-to-one", "target": "Vehicle", "foreignKey": "vehicle_id" }
+      ]
+    },
+    {
+      "name": "VehicleAttachment",
+      "tableName": "car_vehicle_attachment",
+      "comment": "车辆附件表",
+      "fields": [
+        { "name": "id", "column": "id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": true, "unique": false, "defaultValue": null, "comment": "主键ID" },
+        { "name": "vehicleId", "column": "vehicle_id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "车辆ID" },
+        { "name": "attachmentType", "column": "attachment_type", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "附件类型：photos/purchaseContract/purchaseInvoice/registrationCert/drivingLicense/taxCertificate/other" },
+        { "name": "fileName", "column": "file_name", "javaType": "String", "mysqlType": "VARCHAR", "length": 200, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "原始文件名" },
+        { "name": "fileUrl", "column": "file_url", "javaType": "String", "mysqlType": "VARCHAR", "length": 500, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "文件存储URL" },
+        { "name": "fileSize", "column": "file_size", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "文件大小（字节）" },
+        { "name": "createTime", "column": "create_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "创建时间" },
+        { "name": "updateTime", "column": "update_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "更新时间" }
+      ],
+      "indexes": [
+        { "type": "idx", "name": "idx_vehicle_id", "columns": ["vehicle_id"] },
+        { "type": "idx", "name": "idx_attachment_type", "columns": ["attachment_type"] }
+      ],
+      "relations": [
+        { "type": "many-to-one", "target": "Vehicle", "foreignKey": "vehicle_id" }
+      ]
+    },
+    {
+      "name": "Accident",
+      "tableName": "car_accident",
+      "comment": "事故处置记录表",
+      "fields": [
+        { "name": "id", "column": "id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": true, "unique": false, "defaultValue": null, "comment": "主键ID" },
+        { "name": "accidentNo", "column": "accident_no", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": false, "primaryKey": false, "unique": true, "defaultValue": null, "comment": "事故编号，系统自动生成" },
+        { "name": "vehicleId", "column": "vehicle_id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "车辆ID" },
+        { "name": "plate", "column": "plate", "javaType": "String", "mysqlType": "VARCHAR", "length": 20, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "车牌号（冗余字段）" },
+        { "name": "accidentTime", "column": "accident_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "事故发生时间" },
+        { "name": "location", "column": "location", "javaType": "String", "mysqlType": "VARCHAR", "length": 200, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "事故地点" },
+        { "name": "accidentType", "column": "accident_type", "javaType": "String", "mysqlType": "VARCHAR", "length": 20, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "事故类型：剐蹭/碰撞/追尾/侧翻/自燃/其他" },
+        { "name": "policeInvolved", "column": "police_involved", "javaType": "Boolean", "mysqlType": "TINYINT", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": "0", "comment": "是否报警：0否 1是" },
+        { "name": "responsibility", "column": "responsibility", "javaType": "String", "mysqlType": "VARCHAR", "length": 30, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "事故责任：全部责任/主要责任/同等责任/次要责任/无责任/无法认定责任（报警时填写）" },
+        { "name": "description", "column": "description", "javaType": "String", "mysqlType": "TEXT", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "事故描述，最多500字" },
+        { "name": "remarks", "column": "remarks", "javaType": "String", "mysqlType": "TEXT", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "备注" },
+        { "name": "status", "column": "status", "javaType": "Integer", "mysqlType": "TINYINT", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": "1", "comment": "审批状态：1草稿 2审批中 3已驳回 4已闭环" },
+        { "name": "severity", "column": "severity", "javaType": "Integer", "mysqlType": "TINYINT", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "严重程度：1低 2中 3高" },
+        { "name": "result", "column": "result", "javaType": "String", "mysqlType": "VARCHAR", "length": 500, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "处置结果（已闭环时填写）" },
+        { "name": "reporterId", "column": "reporter_id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "上报人ID" },
+        { "name": "reporterName", "column": "reporter_name", "javaType": "String", "mysqlType": "VARCHAR", "length": 50, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "上报人姓名" },
+        { "name": "reportTime", "column": "report_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "上报时间" },
+        { "name": "createTime", "column": "create_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "创建时间" },
+        { "name": "updateTime", "column": "update_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "更新时间" }
+      ],
+      "indexes": [
+        { "type": "uk", "name": "uk_accident_no", "columns": ["accident_no"] },
+        { "type": "idx", "name": "idx_vehicle_id", "columns": ["vehicle_id"] },
+        { "type": "idx", "name": "idx_status", "columns": ["status"] },
+        { "type": "idx", "name": "idx_reporter_id", "columns": ["reporter_id"] },
+        { "type": "idx", "name": "idx_accident_time", "columns": ["accident_time"] }
+      ],
+      "relations": [
+        { "type": "one-to-many", "target": "AccidentExpense", "foreignKey": "accident_id" },
+        { "type": "one-to-many", "target": "AccidentAttachment", "foreignKey": "accident_id" }
+      ]
+    },
+    {
+      "name": "AccidentExpense",
+      "tableName": "car_accident_expense",
+      "comment": "事故费用明细表",
+      "fields": [
+        { "name": "id", "column": "id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": true, "unique": false, "defaultValue": null, "comment": "主键ID" },
+        { "name": "accidentId", "column": "accident_id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "事故记录ID" },
+        { "name": "title", "column": "title", "javaType": "String", "mysqlType": "VARCHAR", "length": 100, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "费用标题" },
+        { "name": "expenseDesc", "column": "expense_desc", "javaType": "String", "mysqlType": "VARCHAR", "length": 500, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "费用说明" },
+        { "name": "amount", "column": "amount", "javaType": "BigDecimal", "mysqlType": "DECIMAL", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "费用金额（元）" },
+        { "name": "createTime", "column": "create_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "创建时间" },
+        { "name": "updateTime", "column": "update_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "更新时间" }
+      ],
+      "indexes": [
+        { "type": "idx", "name": "idx_accident_id", "columns": ["accident_id"] }
+      ],
+      "relations": [
+        { "type": "many-to-one", "target": "Accident", "foreignKey": "accident_id" },
+        { "type": "one-to-many", "target": "AccidentAttachment", "foreignKey": "expense_id" }
+      ]
+    },
+    {
+      "name": "AccidentAttachment",
+      "tableName": "car_accident_attachment",
+      "comment": "事故附件表",
+      "fields": [
+        { "name": "id", "column": "id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": true, "unique": false, "defaultValue": null, "comment": "主键ID" },
+        { "name": "accidentId", "column": "accident_id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "事故记录ID" },
+        { "name": "expenseId", "column": "expense_id", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "费用明细ID（费用凭证时填写）" },
+        { "name": "attachmentType", "column": "attachment_type", "javaType": "String", "mysqlType": "VARCHAR", "length": 20, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "附件类型：voucher（费用凭证）/other（其他附件）" },
+        { "name": "fileName", "column": "file_name", "javaType": "String", "mysqlType": "VARCHAR", "length": 200, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "原始文件名" },
+        { "name": "fileUrl", "column": "file_url", "javaType": "String", "mysqlType": "VARCHAR", "length": 500, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "文件存储URL" },
+        { "name": "fileSize", "column": "file_size", "javaType": "Long", "mysqlType": "BIGINT", "length": null, "nullable": true, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "文件大小（字节）" },
+        { "name": "createTime", "column": "create_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "创建时间" },
+        { "name": "updateTime", "column": "update_time", "javaType": "LocalDateTime", "mysqlType": "DATETIME", "length": null, "nullable": false, "primaryKey": false, "unique": false, "defaultValue": null, "comment": "更新时间" }
+      ],
+      "indexes": [
+        { "type": "idx", "name": "idx_accident_id", "columns": ["accident_id"] },
+        { "type": "idx", "name": "idx_expense_id", "columns": ["expense_id"] }
+      ],
+      "relations": [
+        { "type": "many-to-one", "target": "Accident", "foreignKey": "accident_id" }
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "name": "VehicleStatusEnum",
+      "comment": "车辆状态",
+      "values": [
+        { "name": "AVAILABLE", "code": 1, "label": "可用" },
+        { "name": "REPAIRING", "code": 2, "label": "维修中" },
+        { "name": "MAINTAINING", "code": 3, "label": "保养中" },
+        { "name": "INACTIVE", "code": 4, "label": "停用" },
+        { "name": "SCRAPPED", "code": 5, "label": "报废" }
+      ]
+    },
+    {
+      "name": "VehicleAttributeEnum",
+      "comment": "车辆属性",
+      "values": [
+        { "name": "OWNED", "code": 1, "label": "自有车辆" },
+        { "name": "LEASED", "code": 2, "label": "租赁车辆" },
+        { "name": "PARTNER", "code": 3, "label": "合作方临时借用" }
+      ]
+    },
+    {
+      "name": "UseNatureEnum",
+      "comment": "使用性质",
+      "values": [
+        { "name": "NON_COMMERCIAL", "code": 1, "label": "非营运" },
+        { "name": "COMMERCIAL", "code": 2, "label": "营运" },
+        { "name": "OFFICIAL", "code": 3, "label": "公务" }
+      ]
+    },
+    {
+      "name": "InsuranceTypeEnum",
+      "comment": "保险险种",
+      "values": [
+        { "name": "COMPULSORY", "code": 1, "label": "交强险" },
+        { "name": "COMMERCIAL", "code": 2, "label": "商业险" },
+        { "name": "OTHER", "code": 3, "label": "其他" }
+      ]
+    },
+    {
+      "name": "InsuranceStatusEnum",
+      "comment": "保险状态",
+      "values": [
+        { "name": "VALID", "code": 1, "label": "有效" },
+        { "name": "EXPIRING", "code": 2, "label": "即将到期" },
+        { "name": "OVERDUE", "code": 3, "label": "逾期" }
+      ]
+    },
+    {
+      "name": "InspectionStatusEnum",
+      "comment": "车检状态",
+      "values": [
+        { "name": "VALID", "code": 1, "label": "有效" },
+        { "name": "OVERDUE", "code": 2, "label": "逾期" }
+      ]
+    },
+    {
+      "name": "AccidentTypeEnum",
+      "comment": "事故类型",
+      "values": [
+        { "name": "SCRATCH", "code": 1, "label": "剐蹭" },
+        { "name": "COLLISION", "code": 2, "label": "碰撞" },
+        { "name": "REAR_END", "code": 3, "label": "追尾" },
+        { "name": "ROLLOVER", "code": 4, "label": "侧翻" },
+        { "name": "FIRE", "code": 5, "label": "自燃" },
+        { "name": "OTHER", "code": 6, "label": "其他" }
+      ]
+    },
+    {
+      "name": "AccidentStatusEnum",
+      "comment": "事故审批状态",
+      "values": [
+        { "name": "DRAFT", "code": 1, "label": "草稿" },
+        { "name": "APPROVING", "code": 2, "label": "审批中" },
+        { "name": "REJECTED", "code": 3, "label": "驳回" },
+        { "name": "CLOSED", "code": 4, "label": "已闭环" }
+      ]
+    },
+    {
+      "name": "AccidentSeverityEnum",
+      "comment": "事故严重程度",
+      "values": [
+        { "name": "LOW", "code": 1, "label": "低" },
+        { "name": "MEDIUM", "code": 2, "label": "中" },
+        { "name": "HIGH", "code": 3, "label": "高" }
+      ]
+    },
+    {
+      "name": "AccidentResponsibilityEnum",
+      "comment": "事故责任认定",
+      "values": [
+        { "name": "FULL", "code": 1, "label": "全部责任" },
+        { "name": "MAJOR", "code": 2, "label": "主要责任" },
+        { "name": "EQUAL", "code": 3, "label": "同等责任" },
+        { "name": "MINOR", "code": 4, "label": "次要责任" },
+        { "name": "NONE", "code": 5, "label": "无责任" },
+        { "name": "UNDETERMINED", "code": 6, "label": "无法认定责任" }
+      ]
+    }
+  ],
+  "apis": [
+    {
+      "module": "车辆管理",
+      "prefix": "/api/v1/vehicle",
+      "items": [
+        {
+          "name": "分页查询车辆列表",
+          "method": "GET",
+          "path": "/page",
+          "permission": "vehicle:list",
+          "request": {
+            "query": [
+              { "name": "pageNum", "javaType": "Integer", "required": true, "default": 1 },
+              { "name": "pageSize", "javaType": "Integer", "required": true, "default": 10 },
+              { "name": "plate", "javaType": "String", "required": false, "comment": "车牌号搜索" },
+              { "name": "useNature", "javaType": "String", "required": false, "comment": "使用性质" },
+              { "name": "attribute", "javaType": "String", "required": false, "comment": "车辆属性" },
+              { "name": "status", "javaType": "Integer", "required": false, "comment": "车辆状态" },
+              { "name": "deptName", "javaType": "String", "required": false, "comment": "所属部门" },
+              { "name": "responsibleName", "javaType": "String", "required": false, "comment": "责任人姓名" },
+              { "name": "insStatus", "javaType": "String", "required": false, "comment": "保险状态：valid/expiring/overdue" },
+              { "name": "inspectStatus", "javaType": "String", "required": false, "comment": "年检状态：valid/overdue" },
+              { "name": "alertType", "javaType": "String", "required": false, "comment": "预警类型：insurance/inspection/contract" }
+            ]
+          },
+          "response": { "type": "Page", "entity": "Vehicle" }
+        },
+        {
+          "name": "获取车辆仪表盘统计",
+          "method": "GET",
+          "path": "/dashboard",
+          "permission": "vehicle:list",
+          "request": {},
+          "response": { "type": "VehicleDashboardVO", "comment": "包含各状态数量、属性分布、类型分布、预警数量" }
+        },
+        {
+          "name": "获取车辆详情",
+          "method": "GET",
+          "path": "/{id}",
+          "permission": "vehicle:detail",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true }
+            ]
+          },
+          "response": { "type": "Vehicle", "comment": "含保险信息列表和附件列表" }
+        },
+        {
+          "name": "新建车辆档案",
+          "method": "POST",
+          "path": "/save",
+          "permission": "vehicle:add",
+          "request": {
+            "body": [
+              { "name": "plate", "javaType": "String", "required": true, "validation": ["NotBlank"] },
+              { "name": "brand", "javaType": "String", "required": true, "validation": ["NotBlank"] },
+              { "name": "model", "javaType": "String", "required": false },
+              { "name": "vin", "javaType": "String", "required": false },
+              { "name": "engineNo", "javaType": "String", "required": false },
+              { "name": "color", "javaType": "String", "required": true, "validation": ["NotBlank"] },
+              { "name": "useNature", "javaType": "String", "required": false },
+              { "name": "seatCount", "javaType": "Integer", "required": false },
+              { "name": "category", "javaType": "String", "required": false },
+              { "name": "attribute", "javaType": "String", "required": false },
+              { "name": "status", "javaType": "Integer", "required": false },
+              { "name": "responsibleId", "javaType": "Long", "required": false },
+              { "name": "deptId", "javaType": "Long", "required": false },
+              { "name": "contractStart", "javaType": "LocalDateTime", "required": false },
+              { "name": "contractEnd", "javaType": "LocalDateTime", "required": false },
+              { "name": "remarks", "javaType": "String", "required": false },
+              { "name": "inspectionDate", "javaType": "LocalDateTime", "required": false }
+            ]
+          },
+          "response": { "type": "Long", "comment": "新建车辆ID" }
+        },
+        {
+          "name": "修改车辆档案",
+          "method": "PUT",
+          "path": "/update",
+          "permission": "vehicle:edit",
+          "request": {
+            "body": [
+              { "name": "id", "javaType": "Long", "required": true },
+              { "name": "plate", "javaType": "String", "required": true, "validation": ["NotBlank"] },
+              { "name": "brand", "javaType": "String", "required": true, "validation": ["NotBlank"] },
+              { "name": "color", "javaType": "String", "required": true, "validation": ["NotBlank"] }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        },
+        {
+          "name": "删除车辆档案",
+          "method": "DELETE",
+          "path": "/{id}",
+          "permission": "vehicle:delete",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        },
+        {
+          "name": "导出车辆列表",
+          "method": "GET",
+          "path": "/export",
+          "permission": "vehicle:export",
+          "request": {
+            "query": [
+              { "name": "ids", "javaType": "List<Long>", "required": false, "comment": "指定导出的ID列表，为空则导出全部筛选结果" }
+            ]
+          },
+          "response": { "type": "File", "comment": "Excel文件流" }
+        },
+        {
+          "name": "上传车辆附件",
+          "method": "POST",
+          "path": "/attachment/upload",
+          "permission": "vehicle:add",
+          "request": {
+            "body": [
+              { "name": "vehicleId", "javaType": "Long", "required": true },
+              { "name": "attachmentType", "javaType": "String", "required": true }
+            ]
+          },
+          "response": { "type": "String", "comment": "附件URL" }
+        },
+        {
+          "name": "删除车辆附件",
+          "method": "DELETE",
+          "path": "/attachment/{id}",
+          "permission": "vehicle:edit",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        },
+        {
+          "name": "新增保险信息",
+          "method": "POST",
+          "path": "/insurance/save",
+          "permission": "vehicle:edit",
+          "request": {
+            "body": [
+              { "name": "vehicleId", "javaType": "Long", "required": true },
+              { "name": "insuranceType", "javaType": "String", "required": true },
+              { "name": "customTypeName", "javaType": "String", "required": false },
+              { "name": "company", "javaType": "String", "required": false },
+              { "name": "startDate", "javaType": "LocalDateTime", "required": false },
+              { "name": "endDate", "javaType": "LocalDateTime", "required": false }
+            ]
+          },
+          "response": { "type": "Long", "comment": "保险记录ID" }
+        },
+        {
+          "name": "修改保险信息",
+          "method": "PUT",
+          "path": "/insurance/update",
+          "permission": "vehicle:edit",
+          "request": {
+            "body": [
+              { "name": "id", "javaType": "Long", "required": true },
+              { "name": "insuranceType", "javaType": "String", "required": false },
+              { "name": "customTypeName", "javaType": "String", "required": false },
+              { "name": "company", "javaType": "String", "required": false },
+              { "name": "startDate", "javaType": "LocalDateTime", "required": false },
+              { "name": "endDate", "javaType": "LocalDateTime", "required": false }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        },
+        {
+          "name": "删除保险信息",
+          "method": "DELETE",
+          "path": "/insurance/{id}",
+          "permission": "vehicle:edit",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        }
+      ]
+    },
+    {
+      "module": "事故处置",
+      "prefix": "/api/v1/accident",
+      "items": [
+        {
+          "name": "分页查询事故列表",
+          "method": "GET",
+          "path": "/page",
+          "permission": "accident:list",
+          "request": {
+            "query": [
+              { "name": "pageNum", "javaType": "Integer", "required": true, "default": 1 },
+              { "name": "pageSize", "javaType": "Integer", "required": true, "default": 10 },
+              { "name": "keyword", "javaType": "String", "required": false, "comment": "车牌号或上报人姓名" },
+              { "name": "accidentType", "javaType": "String", "required": false, "comment": "事故类型" },
+              { "name": "status", "javaType": "Integer", "required": false, "comment": "审批状态" },
+              { "name": "severity", "javaType": "Integer", "required": false, "comment": "严重程度" },
+              { "name": "startTime", "javaType": "LocalDateTime", "required": false, "comment": "事故时间范围-开始" },
+              { "name": "endTime", "javaType": "LocalDateTime", "required": false, "comment": "事故时间范围-结束" },
+              { "name": "delayFilter", "javaType": "Boolean", "required": false, "comment": "是否筛选处置超时" }
+            ]
+          },
+          "response": { "type": "Page", "entity": "Accident" }
+        },
+        {
+          "name": "获取事故仪表盘统计",
+          "method": "GET",
+          "path": "/dashboard",
+          "permission": "accident:list",
+          "request": {},
+          "response": { "type": "AccidentDashboardVO", "comment": "包含各状态数量、严重程度分布、类型分布、责任认定分布、近6个月趋势" }
+        },
+        {
+          "name": "获取事故详情",
+          "method": "GET",
+          "path": "/{id}",
+          "permission": "accident:detail",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true }
+            ]
+          },
+          "response": { "type": "Accident", "comment": "含费用明细列表（每条含凭证附件）和其他附件列表" }
+        },
+        {
+          "name": "保存事故草稿",
+          "method": "POST",
+          "path": "/save",
+          "permission": "accident:add",
+          "request": {
+            "body": [
+              { "name": "vehicleId", "javaType": "Long", "required": true },
+              { "name": "accidentTime", "javaType": "LocalDateTime", "required": true },
+              { "name": "location", "javaType": "String", "required": true, "validation": ["NotBlank"] },
+              { "name": "accidentType", "javaType": "String", "required": true, "validation": ["NotBlank"] },
+              { "name": "policeInvolved", "javaType": "Boolean", "required": true },
+              { "name": "responsibility", "javaType": "String", "required": false },
+              { "name": "description", "javaType": "String", "required": true, "validation": ["NotBlank", "Length(max=500)"] },
+              { "name": "remarks", "javaType": "String", "required": false }
+            ]
+          },
+          "response": { "type": "Long", "comment": "事故记录ID" }
+        },
+        {
+          "name": "修改事故记录",
+          "method": "PUT",
+          "path": "/update",
+          "permission": "accident:edit",
+          "request": {
+            "body": [
+              { "name": "id", "javaType": "Long", "required": true },
+              { "name": "vehicleId", "javaType": "Long", "required": false },
+              { "name": "accidentTime", "javaType": "LocalDateTime", "required": false },
+              { "name": "location", "javaType": "String", "required": false },
+              { "name": "accidentType", "javaType": "String", "required": false },
+              { "name": "policeInvolved", "javaType": "Boolean", "required": false },
+              { "name": "responsibility", "javaType": "String", "required": false },
+              { "name": "description", "javaType": "String", "required": false },
+              { "name": "remarks", "javaType": "String", "required": false }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        },
+        {
+          "name": "上报事故",
+          "method": "POST",
+          "path": "/report/{id}",
+          "permission": "accident:add",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        },
+        {
+          "name": "撤回事故上报",
+          "method": "POST",
+          "path": "/withdraw/{id}",
+          "permission": "accident:edit",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        },
+        {
+          "name": "删除事故记录",
+          "method": "DELETE",
+          "path": "/{id}",
+          "permission": "accident:delete",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        },
+        {
+          "name": "导出事故列表",
+          "method": "GET",
+          "path": "/export",
+          "permission": "accident:export",
+          "request": {
+            "query": [
+              { "name": "ids", "javaType": "List<Long>", "required": false, "comment": "指定导出的ID列表，为空则导出全部筛选结果" }
+            ]
+          },
+          "response": { "type": "File", "comment": "Excel文件流" }
+        },
+        {
+          "name": "新增费用明细",
+          "method": "POST",
+          "path": "/expense/save",
+          "permission": "accident:edit",
+          "request": {
+            "body": [
+              { "name": "accidentId", "javaType": "Long", "required": true },
+              { "name": "title", "javaType": "String", "required": true },
+              { "name": "expenseDesc", "javaType": "String", "required": false },
+              { "name": "amount", "javaType": "BigDecimal", "required": true }
+            ]
+          },
+          "response": { "type": "Long", "comment": "费用明细ID" }
+        },
+        {
+          "name": "修改费用明细",
+          "method": "PUT",
+          "path": "/expense/update",
+          "permission": "accident:edit",
+          "request": {
+            "body": [
+              { "name": "id", "javaType": "Long", "required": true },
+              { "name": "title", "javaType": "String", "required": false },
+              { "name": "expenseDesc", "javaType": "String", "required": false },
+              { "name": "amount", "javaType": "BigDecimal", "required": false }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        },
+        {
+          "name": "删除费用明细",
+          "method": "DELETE",
+          "path": "/expense/{id}",
+          "permission": "accident:edit",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        },
+        {
+          "name": "上传事故附件",
+          "method": "POST",
+          "path": "/attachment/upload",
+          "permission": "accident:edit",
+          "request": {
+            "body": [
+              { "name": "accidentId", "javaType": "Long", "required": true },
+              { "name": "expenseId", "javaType": "Long", "required": false },
+              { "name": "attachmentType", "javaType": "String", "required": true, "comment": "voucher/other" }
+            ]
+          },
+          "response": { "type": "String", "comment": "附件URL" }
+        },
+        {
+          "name": "删除事故附件",
+          "method": "DELETE",
+          "path": "/attachment/{id}",
+          "permission": "accident:edit",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true }
+            ]
+          },
+          "response": { "type": "Boolean" }
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "车辆台账",
+      "route": "/vehicle/list",
+      "routeName": "VehicleList",
+      "module": "车辆管理",
+      "type": "list",
+      "permission": "vehicle:list",
+      "searchFields": [
+        { "name": "plate", "label": "车牌号", "type": "input", "placeholder": "请输入车牌号" }
+      ],
+      "filterDrawer": {
+        "fields": [
+          { "name": "useNature", "label": "使用性质", "type": "select", "options": ["非营运", "营运", "公务"] },
+          { "name": "attribute", "label": "车辆属性", "type": "select", "options": ["自有车辆", "租赁车辆", "合作方临时借用"] },
+          { "name": "status", "label": "车辆状态", "type": "select", "options": ["可用", "维修中", "保养中", "停用"] },
+          { "name": "deptName", "label": "所属部门", "type": "select", "dataSource": "getDeptList" },
+          { "name": "responsibleName", "label": "车辆责任人", "type": "select", "filterable": true, "dataSource": "getResponsibleList" },
+          { "name": "insStatus", "label": "保险状态", "type": "select", "options": ["有效", "即将到期", "逾期"] },
+          { "name": "inspectStatus", "label": "年检状态", "type": "select", "options": ["有效", "即将到期", "逾期"] }
+        ]
+      },
+      "tableColumns": [
+        { "name": "archiveNo", "label": "档案编号", "width": 130, "toggleable": true },
+        { "name": "plate", "label": "车牌号", "width": 120, "toggleable": true },
+        { "name": "brand", "label": "车辆品牌", "width": 110, "toggleable": true },
+        { "name": "model", "label": "车辆型号", "width": 120, "toggleable": true },
+        { "name": "vin", "label": "车架号(VIN)", "width": 160, "toggleable": true },
+        { "name": "engineNo", "label": "发动机号", "width": 140, "toggleable": true },
+        { "name": "color", "label": "车辆颜色", "width": 100, "toggleable": true },
+        { "name": "useNature", "label": "使用性质", "width": 110, "toggleable": true },
+        { "name": "seatCount", "label": "座位数", "width": 90, "toggleable": true },
+        { "name": "category", "label": "车辆分类", "width": 110, "toggleable": true },
+        { "name": "attribute", "label": "车辆属性", "width": 140, "toggleable": true },
+        { "name": "status", "label": "车辆状态", "width": 100, "type": "tag", "enum": "VehicleStatusEnum", "toggleable": true },
+        { "name": "deptName", "label": "所属部门", "width": 110, "toggleable": true },
+        { "name": "responsibleName", "label": "车辆责任人", "width": 110, "toggleable": true },
+        { "name": "contractPeriod", "label": "承运服务合同期限", "width": 200, "toggleable": true, "comment": "contractStart至contractEnd" },
+        { "name": "remarks", "label": "备注", "width": 150, "toggleable": true },
+        { "name": "photoUrl", "label": "车辆照片", "width": 100, "type": "image", "toggleable": true },
+        { "name": "insuranceType", "label": "险种", "width": 140, "toggleable": true },
+        { "name": "insuranceCompany", "label": "投保公司", "width": 140, "toggleable": true },
+        { "name": "insurancePeriod", "label": "保险期限", "width": 200, "toggleable": true, "comment": "insuranceStart至insuranceEnd" },
+        { "name": "insuranceStatus", "label": "保险状态", "width": 100, "type": "tag", "enum": "InsuranceStatusEnum", "toggleable": true },
+        { "name": "inspectionDate", "label": "年检有效期", "width": 120, "toggleable": true },
+        { "name": "inspectionStatus", "label": "年检状态", "width": 100, "type": "tag", "enum": "InspectionStatusEnum", "toggleable": true }
+      ],
+      "buttons": [
+        { "label": "新建车辆档案", "type": "primary", "action": "create", "permission": "vehicle:add" },
+        { "label": "导出", "type": "success", "action": "export", "permission": "vehicle:export", "dropdown": [
+          { "label": "导出全部", "command": "exportAll" },
+          { "label": "导出选中", "command": "exportSelected" }
+        ]}
+      ],
+      "rowActions": [
+        { "label": "查看", "action": "viewDetail", "permission": "vehicle:detail" },
+        { "label": "编辑", "action": "openForm", "permission": "vehicle:edit" },
+        { "label": "删除", "action": "deleteRow", "permission": "vehicle:delete" }
+      ],
+      "dialogs": [],
+      "dashboard": {
+        "charts": [
+          { "type": "pie", "title": "车辆属性构成", "dataField": "attributeDistribution" },
+          { "type": "pie", "title": "车辆类型构成", "dataField": "categoryDistribution" }
+        ],
+        "statCards": [
+          { "label": "可用车辆", "field": "available", "icon": "check", "iconClass": "available" },
+          { "label": "维修中", "field": "repairing", "icon": "warning", "iconClass": "repair" },
+          { "label": "保养中", "field": "maintaining", "icon": "setting", "iconClass": "maintain" },
+          { "label": "停用车辆", "field": "inactive", "icon": "circle-close", "iconClass": "inactive" },
+          { "label": "保险到期预警", "field": "insuranceAlertCount", "filterKey": "insurance", "iconClass": "insurance" },
+          { "label": "年检到期预警", "field": "inspectionAlertCount", "filterKey": "inspection", "iconClass": "inspection" },
+          { "label": "承运合同到期预警", "field": "contractAlertCount", "filterKey": "contract", "iconClass": "contract" }
+        ]
+      },
+      "bindApi": {
+        "list": "GET /api/v1/vehicle/page",
+        "dashboard": "GET /api/v1/vehicle/dashboard",
+        "delete": "DELETE /api/v1/vehicle/{id}",
+        "export": "GET /api/v1/vehicle/export"
+      }
+    },
+    {
+      "name": "新建车辆档案",
+      "route": "/vehicle/create",
+      "routeName": "VehicleCreate",
+      "module": "车辆管理",
+      "type": "form",
+      "permission": "vehicle:add",
+      "searchFields": [],
+      "tableColumns": [],
+      "buttons": [
+        { "label": "取消", "type": "default", "action": "cancel" },
+        { "label": "提交", "type": "primary", "action": "submit" }
+      ],
+      "rowActions": [],
+      "dialogs": [
+        {
+          "name": "PersonnelDialog",
+          "title": "选择车辆责任人",
+          "trigger": ["车辆责任人输入框点击"],
+          "fields": [
+            { "name": "name", "label": "姓名", "type": "text" },
+            { "name": "department", "label": "部门", "type": "text" }
+          ]
+        },
+        {
+          "name": "InsuranceDialog",
+          "title": "添加/编辑保险",
+          "trigger": ["添加保险按钮", "编辑保险按钮"],
+          "fields": [
+            { "name": "insuranceType", "label": "险种", "type": "select", "required": true, "options": ["交强险", "商业险", "其他"] },
+            { "name": "customTypeName", "label": "险种名称", "type": "input", "required": false, "showWhen": "insuranceType === '其他'" },
+            { "name": "company", "label": "投保公司", "type": "input", "required": false },
+            { "name": "startDate", "label": "开始日期", "type": "date", "required": false },
+            { "name": "endDate", "label": "结束日期", "type": "date", "required": false },
+            { "name": "attachFiles", "label": "保险合同凭证", "type": "upload", "required": false, "multiple": true }
+          ]
+        }
+      ],
+      "formSections": [
+        {
+          "title": "基础信息",
+          "layout": "3-columns",
+          "fields": [
+            { "name": "archiveNo", "label": "档案编号", "type": "input", "required": false, "disabled": true, "comment": "系统自动生成" },
+            { "name": "plate", "label": "车牌号", "type": "input", "required": true },
+            { "name": "brand", "label": "车辆品牌", "type": "input", "required": true },
+            { "name": "model", "label": "车辆型号", "type": "input", "required": false },
+            { "name": "vin", "label": "车架号(VIN)", "type": "input", "required": false },
+            { "name": "engineNo", "label": "发动机号", "type": "input", "required": false },
+            { "name": "color", "label": "车辆颜色", "type": "select", "required": true, "options": ["白", "灰", "黄", "粉", "红", "紫", "绿", "蓝", "棕", "黑"] },
+            { "name": "useNature", "label": "使用性质", "type": "select", "required": false, "options": ["非营运", "营运", "公务"] },
+            { "name": "seatCount", "label": "座位数", "type": "number", "required": false, "min": 1, "max": 50 },
+            { "name": "category", "label": "车辆分类", "type": "select", "required": false, "options": ["生产运输车辆", "厂内转运车辆", "员工通勤车辆", "商务接待车辆", "特种作业车辆", "应急保障车辆", "清洁环卫车辆", "私人车辆"] },
+            { "name": "attribute", "label": "车辆属性", "type": "select", "required": false, "options": ["自有车辆", "租赁车辆", "合作方临时借用"] },
+            { "name": "status", "label": "车辆状态", "type": "select", "required": false, "options": ["可用", "维修中", "保养中", "停用", "报废"] },
+            { "name": "responsibleId", "label": "车辆责任人", "type": "personnelSelector", "required": false, "comment": "弹出人员架构选择弹窗" },
+            { "name": "deptId", "label": "所属部门", "type": "input", "required": false, "comment": "选择责任人后自动带出，可手动修改" },
+            { "name": "contractEnd", "label": "承运服务合同期限", "type": "date", "required": false },
+            { "name": "remarks", "label": "备注", "type": "textarea", "required": false }
+          ]
+        },
+        {
+          "title": "车辆附件",
+          "fields": [
+            { "name": "photos", "label": "车辆照片", "type": "upload", "required": true, "multiple": true, "accept": "image/*", "comment": "支持jpg、jpeg、png、HEIC" },
+            { "name": "purchaseContract", "label": "购车合同", "type": "upload", "required": false, "multiple": true, "accept": ".pdf,.doc,.docx,.jpg,.jpeg,.png" },
+            { "name": "purchaseInvoice", "label": "购置发票", "type": "upload", "required": false, "multiple": true, "accept": ".pdf,.jpg,.jpeg,.png" },
+            { "name": "registrationCert", "label": "机动车登记证书", "type": "upload", "required": false, "multiple": true, "accept": ".pdf,.jpg,.jpeg,.png" },
+            { "name": "drivingLicense", "label": "机动车行驶证", "type": "upload", "required": true, "multiple": true, "accept": ".jpg,.jpeg,.png,.pdf" },
+            { "name": "taxCertificate", "label": "购置税完税证明", "type": "upload", "required": false, "multiple": true, "accept": ".pdf,.jpg,.jpeg,.png" },
+            { "name": "other", "label": "其他附件", "type": "upload", "required": false, "multiple": true, "accept": "*/*" }
+          ]
+        },
+        {
+          "title": "保险信息",
+          "comment": "表格形式展示，可添加/编辑/删除多条保险记录",
+          "fields": [
+            { "name": "insuranceList", "label": "保险信息", "type": "tableList", "required": false, "columns": [
+              { "prop": "typeName", "label": "险种" },
+              { "prop": "company", "label": "投保公司" },
+              { "prop": "period", "label": "保障期限", "comment": "startDate至endDate" },
+              { "prop": "status", "label": "状态", "type": "tag" },
+              { "prop": "attachments", "label": "保险合同凭证", "type": "attachment" },
+              { "prop": "actions", "label": "操作", "actions": ["编辑", "删除"] }
+            ]}
+          ]
+        },
+        {
+          "title": "车检信息",
+          "fields": [
+            { "name": "inspectionDate", "label": "年检有效期", "type": "date", "required": false },
+            { "name": "inspectionStatus", "label": "车检状态", "type": "input", "required": false, "disabled": true, "comment": "根据年检有效期自动计算" }
+          ]
+        }
+      ],
+      "bindApi": {
+        "save": "POST /api/v1/vehicle/save",
+        "uploadAttachment": "POST /api/v1/vehicle/attachment/upload",
+        "saveInsurance": "POST /api/v1/vehicle/insurance/save",
+        "updateInsurance": "PUT /api/v1/vehicle/insurance/update",
+        "deleteInsurance": "DELETE /api/v1/vehicle/insurance/{id}"
+      }
+    },
+    {
+      "name": "事故处置查询",
+      "route": "/accident/list",
+      "routeName": "AccidentList",
+      "module": "事故处置",
+      "type": "list",
+      "permission": "accident:list",
+      "searchFields": [
+        { "name": "keyword", "label": "关键词", "type": "input", "placeholder": "请输入车牌号或上报人姓名" }
+      ],
+      "filterDrawer": {
+        "fields": [
+          { "name": "accidentType", "label": "事故类型", "type": "select", "options": ["剐蹭", "碰撞", "追尾", "侧翻", "自燃", "其他"] },
+          { "name": "status", "label": "处置状态", "type": "select", "options": ["草稿", "审批中", "驳回", "已闭环"] },
+          { "name": "dateRange", "label": "事故日期范围", "type": "daterange" }
+        ]
+      },
+      "tableColumns": [
+        { "name": "accidentNo", "label": "事故编号", "width": 130, "toggleable": true },
+        { "name": "plate", "label": "车牌号", "width": 100, "toggleable": true },
+        { "name": "accidentTime", "label": "事故时间", "width": 135, "toggleable": true },
+        { "name": "location", "label": "事故地点", "width": 140, "toggleable": true },
+        { "name": "accidentType", "label": "事故类型", "width": 80, "toggleable": true },
+        { "name": "description", "label": "事故描述", "width": 200, "toggleable": true },
+        { "name": "policeInvolved", "label": "是否报警", "width": 80, "type": "tag", "toggleable": true },
+        { "name": "responsibility", "label": "事故责任", "width": 90, "toggleable": true },
+        { "name": "remarks", "label": "备注", "width": 120, "toggleable": true },
+        { "name": "expenses", "label": "费用明细", "width": 180, "type": "expenseList", "toggleable": true },
+        { "name": "status", "label": "审批状态", "width": 90, "type": "tag", "enum": "AccidentStatusEnum", "toggleable": true },
+        { "name": "severity", "label": "严重程度", "width": 80, "type": "tag", "enum": "AccidentSeverityEnum", "toggleable": true },
+        { "name": "result", "label": "处置结果", "width": 110, "toggleable": true, "showWhen": "status === CLOSED" },
+        { "name": "reporterName", "label": "上报人", "width": 85, "toggleable": true },
+        { "name": "reportTime", "label": "上报时间", "width": 135, "toggleable": true }
+      ],
+      "buttons": [
+        { "label": "事故上报", "type": "success", "action": "create", "permission": "accident:add" },
+        { "label": "导出", "type": "primary", "action": "export", "permission": "accident:export", "dropdown": [
+          { "label": "导出全部", "command": "exportAll" },
+          { "label": "导出选中", "command": "exportSelected" }
+        ]}
+      ],
+      "rowActions": [
+        { "label": "详情", "action": "viewDetail", "permission": "accident:detail", "always": true },
+        { "label": "编辑", "action": "openForm", "permission": "accident:edit", "showWhen": "status in [DRAFT, REJECTED]" },
+        { "label": "删除", "action": "deleteRow", "permission": "accident:delete", "showWhen": "status in [DRAFT, REJECTED, APPROVING]" },
+        { "label": "撤回", "action": "withdraw", "permission": "accident:edit", "showWhen": "status === APPROVING" }
+      ],
+      "dialogs": [],
+      "dashboard": {
+        "overviewCards": [
+          { "label": "事故总数", "field": "total", "iconClass": "icon-total" },
+          { "label": "驳回", "field": "rejected", "iconClass": "icon-pending", "filterStatus": "驳回" },
+          { "label": "审批中", "field": "approving", "iconClass": "icon-processing", "filterStatus": "审批中" },
+          { "label": "已闭环", "field": "closed", "iconClass": "icon-closed", "filterStatus": "已闭环" }
+        ],
+        "charts": [
+          { "type": "pie", "title": "事故类型分布", "dataField": "typeDistribution", "legendFormat": "名称+百分比+数量" },
+          { "type": "pie", "title": "责任认定分布", "dataField": "responsibilityDistribution", "legendFormat": "名称+百分比+数量" },
+          { "type": "line", "title": "近6个月事故趋势", "dataField": "monthlyTrend" }
+        ],
+        "alertCards": [
+          { "label": "高严重", "field": "highSeverity", "iconClass": "high", "filterSeverity": "高" },
+          { "label": "中严重", "field": "mediumSeverity", "iconClass": "medium", "filterSeverity": "中" },
+          { "label": "低严重", "field": "lowSeverity", "iconClass": "low", "filterSeverity": "低" },
+          { "label": "处置超时", "field": "overdueCount", "iconClass": "overdue", "filterDelay": true }
+        ]
+      },
+      "bindApi": {
+        "list": "GET /api/v1/accident/page",
+        "dashboard": "GET /api/v1/accident/dashboard",
+        "delete": "DELETE /api/v1/accident/{id}",
+        "withdraw": "POST /api/v1/accident/withdraw/{id}",
+        "export": "GET /api/v1/accident/export"
+      }
+    },
+    {
+      "name": "事故上报",
+      "route": "/accident/report",
+      "routeName": "AccidentReport",
+      "module": "事故处置",
+      "type": "form",
+      "permission": "accident:add",
+      "searchFields": [],
+      "tableColumns": [],
+      "buttons": [
+        { "label": "返回", "type": "default", "action": "goBack" },
+        { "label": "保存", "type": "default", "action": "saveDraft" },
+        { "label": "上报事故", "type": "primary", "action": "submit" }
+      ],
+      "rowActions": [],
+      "dialogs": [
+        {
+          "name": "ExpenseDialog",
+          "title": "新增/编辑费用明细",
+          "trigger": ["新增费用明细按钮", "编辑按钮"],
+          "fields": [
+            { "name": "title", "label": "费用标题", "type": "input", "required": true },
+            { "name": "expenseDesc", "label": "费用说明", "type": "textarea", "required": false },
+            { "name": "amount", "label": "费用金额(元)", "type": "number", "required": true },
+            { "name": "voucherFiles", "label": "费用凭证", "type": "upload", "required": false, "multiple": true }
+          ]
+        }
+      ],
+      "formSections": [
+        {
+          "title": "事故信息登记",
+          "layout": "2-columns",
+          "fields": [
+            { "name": "accidentNo", "label": "事故编号", "type": "input", "required": false, "disabled": true, "comment": "系统自动生成" },
+            { "name": "vehicleId", "label": "车牌号", "type": "select", "required": true, "filterable": true, "dataSource": "getVehicleList", "comment": "从车辆列表可搜索选择" },
+            { "name": "accidentTime", "label": "事故时间", "type": "datetime", "required": true },
+            { "name": "location", "label": "事故地点", "type": "input", "required": true },
+            { "name": "accidentType", "label": "事故类型", "type": "select", "required": true, "options": ["剐蹭", "碰撞", "追尾", "侧翻", "自燃", "其他"] },
+            { "name": "policeInvolved", "label": "是否报警", "type": "radio", "required": true, "options": [{ "label": "是", "value": true }, { "label": "否", "value": false }] },
+            { "name": "responsibility", "label": "事故责任", "type": "radio", "required": false, "showWhen": "policeInvolved === true", "options": ["全部责任", "主要责任", "同等责任", "次要责任", "无责任", "无法认定责任"] },
+            { "name": "description", "label": "事故描述", "type": "textarea", "required": true, "maxLength": 500, "showWordLimit": true },
+            { "name": "remarks", "label": "备注", "type": "textarea", "required": false }
+          ]
+        },
+        {
+          "title": "费用明细",
+          "comment": "表格形式，支持新增/复制/编辑/删除，底部显示合计",
+          "fields": [
+            { "name": "expenseList", "label": "费用明细", "type": "tableList", "required": false, "columns": [
+              { "prop": "index", "label": "序号", "type": "index" },
+              { "prop": "title", "label": "费用标题" },
+              { "prop": "expenseDesc", "label": "费用说明" },
+              { "prop": "amount", "label": "费用金额(元)", "type": "money" },
+              { "prop": "voucherFiles", "label": "费用凭证", "type": "attachment" },
+              { "prop": "actions", "label": "操作", "actions": ["复制", "编辑", "删除"] }
+            ], "showTotal": true}
+          ]
+        },
+        {
+          "title": "其他附件",
+          "fields": [
+            { "name": "otherAttachments", "label": "其他附件", "type": "upload", "required": false, "multiple": true, "accept": "*/*", "comment": "支持图片预览和文件下载" }
+          ]
+        }
+      ],
+      "bindApi": {
+        "save": "POST /api/v1/accident/save",
+        "submit": "POST /api/v1/accident/report/{id}",
+        "saveExpense": "POST /api/v1/accident/expense/save",
+        "updateExpense": "PUT /api/v1/accident/expense/update",
+        "deleteExpense": "DELETE /api/v1/accident/expense/{id}",
+        "uploadAttachment": "POST /api/v1/accident/attachment/upload"
+      }
+    }
+  ]
+}

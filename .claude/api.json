@@ -1,0 +1,424 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "车辆管理系统接口契约",
+    "version": "1.0.0",
+    "description": "车辆管理系统后端 REST API，包含车辆管理和事故处置两个模块"
+  },
+  "modules": [
+    {
+      "module": "车辆管理",
+      "tag": "车辆管理",
+      "prefix": "/api/v1/vehicle",
+      "items": [
+        {
+          "name": "分页查询车辆列表",
+          "method": "GET",
+          "path": "/api/v1/vehicle/page",
+          "permission": "vehicle:list",
+          "request": {
+            "query": [
+              { "name": "current", "javaType": "Long", "required": false, "default": 1, "comment": "页码" },
+              { "name": "size", "javaType": "Long", "required": false, "default": 10, "comment": "每页条数" },
+              { "name": "keyword", "javaType": "String", "required": false, "comment": "关键词：车牌号/部门/责任人" },
+              { "name": "useNature", "javaType": "String", "required": false, "comment": "使用性质" },
+              { "name": "attribute", "javaType": "String", "required": false, "comment": "车辆属性" },
+              { "name": "status", "javaType": "Integer", "required": false, "comment": "车辆状态" },
+              { "name": "contractStatus", "javaType": "String", "required": false, "comment": "合同状态：valid/warning/overdue" },
+              { "name": "insuranceStatus", "javaType": "String", "required": false, "comment": "保险状态：valid/warning/overdue" },
+              { "name": "inspectionStatus", "javaType": "String", "required": false, "comment": "年检状态：valid/warning/overdue" }
+            ]
+          },
+          "response": {
+            "type": "PageResult<VehicleVO>",
+            "description": "车辆分页列表"
+          }
+        },
+        {
+          "name": "获取车辆仪表盘统计",
+          "method": "GET",
+          "path": "/api/v1/vehicle/dashboard",
+          "permission": "vehicle:list",
+          "request": {},
+          "response": {
+            "type": "VehicleDashboardVO",
+            "description": "包含各状态数量、属性分布、类型分布、预警数量"
+          }
+        },
+        {
+          "name": "获取车辆详情",
+          "method": "GET",
+          "path": "/api/v1/vehicle/{id}",
+          "permission": "vehicle:detail",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "车辆ID" }
+            ]
+          },
+          "response": {
+            "type": "VehicleVO",
+            "description": "含保险信息和附件列表"
+          }
+        },
+        {
+          "name": "新建车辆档案",
+          "method": "POST",
+          "path": "/api/v1/vehicle/save",
+          "permission": "vehicle:add",
+          "request": {
+            "body": [
+              { "name": "plate", "javaType": "String", "required": true, "validation": ["NotBlank"], "comment": "车牌号" },
+              { "name": "brand", "javaType": "String", "required": true, "validation": ["NotBlank"], "comment": "车辆品牌" },
+              { "name": "model", "javaType": "String", "required": false, "comment": "车辆型号" },
+              { "name": "vin", "javaType": "String", "required": false, "comment": "车架号VIN" },
+              { "name": "engineNo", "javaType": "String", "required": false, "comment": "发动机号" },
+              { "name": "color", "javaType": "String", "required": true, "validation": ["NotBlank"], "comment": "车辆颜色" },
+              { "name": "useNature", "javaType": "String", "required": false, "comment": "使用性质" },
+              { "name": "seatCount", "javaType": "Integer", "required": false, "comment": "座位数" },
+              { "name": "category", "javaType": "String", "required": false, "comment": "车辆分类" },
+              { "name": "attribute", "javaType": "String", "required": false, "comment": "车辆属性" },
+              { "name": "status", "javaType": "Integer", "required": false, "comment": "车辆状态" },
+              { "name": "responsibleId", "javaType": "Long", "required": false, "comment": "责任人ID" },
+              { "name": "deptId", "javaType": "Long", "required": false, "comment": "所属部门ID" },
+              { "name": "contractDate", "javaType": "LocalDateTime", "required": false, "comment": "合同期限" },
+              { "name": "remarks", "javaType": "String", "required": false, "comment": "备注" },
+              { "name": "inspectionDate", "javaType": "LocalDateTime", "required": false, "comment": "年检有效期" },
+              { "name": "insuranceList", "javaType": "List<Long>", "required": false, "comment": "保险信息列表" }
+            ]
+          },
+          "response": {
+            "type": "Long",
+            "description": "新建车辆ID"
+          }
+        },
+        {
+          "name": "修改车辆档案",
+          "method": "PUT",
+          "path": "/api/v1/vehicle/update",
+          "permission": "vehicle:edit",
+          "request": {
+            "body": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "车辆ID" },
+              { "name": "plate", "javaType": "String", "required": true, "validation": ["NotBlank"], "comment": "车牌号" },
+              { "name": "brand", "javaType": "String", "required": true, "validation": ["NotBlank"], "comment": "车辆品牌" },
+              { "name": "color", "javaType": "String", "required": true, "validation": ["NotBlank"], "comment": "车辆颜色" }
+            ]
+          },
+          "response": {
+            "type": "Boolean",
+            "description": "是否成功"
+          }
+        },
+        {
+          "name": "删除车辆档案",
+          "method": "DELETE",
+          "path": "/api/v1/vehicle/{id}",
+          "permission": "vehicle:delete",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "车辆ID" }
+            ]
+          },
+          "response": {
+            "type": "Boolean",
+            "description": "是否成功"
+          }
+        },
+        {
+          "name": "上传车辆附件",
+          "method": "POST",
+          "path": "/api/v1/vehicle/attachment/upload",
+          "permission": "vehicle:add",
+          "request": {
+            "body": [
+              { "name": "vehicleId", "javaType": "Long", "required": true, "comment": "车辆ID" },
+              { "name": "attachmentType", "javaType": "String", "required": true, "comment": "附件类型" }
+            ]
+          },
+          "response": {
+            "type": "String",
+            "description": "附件URL"
+          }
+        },
+        {
+          "name": "删除车辆附件",
+          "method": "DELETE",
+          "path": "/api/v1/vehicle/attachment/{id}",
+          "permission": "vehicle:edit",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "附件ID" }
+            ]
+          },
+          "response": {
+            "type": "Boolean",
+            "description": "是否成功"
+          }
+        },
+        {
+          "name": "新增保险信息",
+          "method": "POST",
+          "path": "/api/v1/vehicle/insurance/save",
+          "permission": "vehicle:edit",
+          "request": {
+            "body": [
+              { "name": "vehicleId", "javaType": "Long", "required": true, "comment": "车辆ID" },
+              { "name": "insuranceType", "javaType": "String", "required": true, "comment": "险种：交强险/商业险/其他" },
+              { "name": "customTypeName", "javaType": "String", "required": false, "comment": "自定义险种名称" },
+              { "name": "company", "javaType": "String", "required": false, "comment": "投保公司" },
+              { "name": "startDate", "javaType": "LocalDateTime", "required": false, "comment": "保险开始日期" },
+              { "name": "endDate", "javaType": "LocalDateTime", "required": false, "comment": "保险结束日期" }
+            ]
+          },
+          "response": {
+            "type": "Long",
+            "description": "保险记录ID"
+          }
+        },
+        {
+          "name": "删除保险信息",
+          "method": "DELETE",
+          "path": "/api/v1/vehicle/insurance/{id}",
+          "permission": "vehicle:edit",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "保险记录ID" }
+            ]
+          },
+          "response": {
+            "type": "Boolean",
+            "description": "是否成功"
+          }
+        }
+      ]
+    },
+    {
+      "module": "事故处置",
+      "tag": "事故处置",
+      "prefix": "/api/v1/accident",
+      "items": [
+        {
+          "name": "分页查询事故列表",
+          "method": "GET",
+          "path": "/api/v1/accident/page",
+          "permission": "accident:list",
+          "request": {
+            "query": [
+              { "name": "current", "javaType": "Long", "required": false, "default": 1, "comment": "页码" },
+              { "name": "size", "javaType": "Long", "required": false, "default": 10, "comment": "每页条数" },
+              { "name": "plate", "javaType": "String", "required": false, "comment": "车牌号搜索" },
+              { "name": "reporter", "javaType": "String", "required": false, "comment": "上报人搜索" },
+              { "name": "accidentType", "javaType": "String", "required": false, "comment": "事故类型" },
+              { "name": "status", "javaType": "Integer", "required": false, "comment": "审批状态" },
+              { "name": "severity", "javaType": "Integer", "required": false, "comment": "严重程度" }
+            ]
+          },
+          "response": {
+            "type": "PageResult<AccidentVO>",
+            "description": "事故分页列表"
+          }
+        },
+        {
+          "name": "获取事故仪表盘统计",
+          "method": "GET",
+          "path": "/api/v1/accident/dashboard",
+          "permission": "accident:list",
+          "request": {},
+          "response": {
+            "type": "AccidentDashboardVO",
+            "description": "包含各状态数量、严重程度分布、类型分布、责任认定分布"
+          }
+        },
+        {
+          "name": "获取事故详情",
+          "method": "GET",
+          "path": "/api/v1/accident/{id}",
+          "permission": "accident:detail",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "事故记录ID" }
+            ]
+          },
+          "response": {
+            "type": "AccidentVO",
+            "description": "含费用明细和附件列表"
+          }
+        },
+        {
+          "name": "保存事故草稿",
+          "method": "POST",
+          "path": "/api/v1/accident/save",
+          "permission": "accident:add",
+          "request": {
+            "body": [
+              { "name": "vehicleId", "javaType": "Long", "required": true, "comment": "车辆ID" },
+              { "name": "accidentTime", "javaType": "LocalDateTime", "required": true, "comment": "事故发生时间" },
+              { "name": "location", "javaType": "String", "required": true, "validation": ["NotBlank"], "comment": "事故地点" },
+              { "name": "accidentType", "javaType": "String", "required": true, "validation": ["NotBlank"], "comment": "事故类型" },
+              { "name": "policeInvolved", "javaType": "Boolean", "required": true, "comment": "是否报警" },
+              { "name": "responsibility", "javaType": "String", "required": false, "comment": "事故责任（报警时必填）" },
+              { "name": "description", "javaType": "String", "required": true, "validation": ["NotBlank", "Size(max=500)"], "comment": "事故描述" },
+              { "name": "remarks", "javaType": "String", "required": false, "comment": "备注" }
+            ]
+          },
+          "response": {
+            "type": "Long",
+            "description": "事故记录ID"
+          }
+        },
+        {
+          "name": "上报事故",
+          "method": "POST",
+          "path": "/api/v1/accident/report/{id}",
+          "permission": "accident:add",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "事故记录ID" }
+            ]
+          },
+          "response": {
+            "type": "Boolean",
+            "description": "是否成功"
+          }
+        },
+        {
+          "name": "修改事故记录",
+          "method": "PUT",
+          "path": "/api/v1/accident/update",
+          "permission": "accident:edit",
+          "request": {
+            "body": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "事故记录ID" },
+              { "name": "accidentTime", "javaType": "LocalDateTime", "required": false, "comment": "事故发生时间" },
+              { "name": "location", "javaType": "String", "required": false, "comment": "事故地点" },
+              { "name": "accidentType", "javaType": "String", "required": false, "comment": "事故类型" },
+              { "name": "policeInvolved", "javaType": "Boolean", "required": false, "comment": "是否报警" },
+              { "name": "responsibility", "javaType": "String", "required": false, "comment": "事故责任" },
+              { "name": "description", "javaType": "String", "required": false, "comment": "事故描述" },
+              { "name": "remarks", "javaType": "String", "required": false, "comment": "备注" }
+            ]
+          },
+          "response": {
+            "type": "Boolean",
+            "description": "是否成功"
+          }
+        },
+        {
+          "name": "删除事故记录",
+          "method": "DELETE",
+          "path": "/api/v1/accident/{id}",
+          "permission": "accident:delete",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "事故记录ID" }
+            ]
+          },
+          "response": {
+            "type": "Boolean",
+            "description": "是否成功"
+          }
+        },
+        {
+          "name": "撤回事故上报",
+          "method": "POST",
+          "path": "/api/v1/accident/withdraw/{id}",
+          "permission": "accident:edit",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "事故记录ID" }
+            ]
+          },
+          "response": {
+            "type": "Boolean",
+            "description": "是否成功"
+          }
+        },
+        {
+          "name": "审批事故",
+          "method": "POST",
+          "path": "/api/v1/accident/approve",
+          "permission": "accident:approve",
+          "request": {
+            "body": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "事故记录ID" },
+              { "name": "approved", "javaType": "Boolean", "required": true, "comment": "true审批通过 false驳回" },
+              { "name": "comment", "javaType": "String", "required": false, "comment": "审批意见" }
+            ]
+          },
+          "response": {
+            "type": "Boolean",
+            "description": "是否成功"
+          }
+        },
+        {
+          "name": "新增费用明细",
+          "method": "POST",
+          "path": "/api/v1/accident/expense/save",
+          "permission": "accident:edit",
+          "request": {
+            "body": [
+              { "name": "accidentId", "javaType": "Long", "required": true, "comment": "事故记录ID" },
+              { "name": "title", "javaType": "String", "required": true, "comment": "费用标题" },
+              { "name": "expenseDesc", "javaType": "String", "required": false, "comment": "费用说明" },
+              { "name": "amount", "javaType": "BigDecimal", "required": true, "comment": "费用金额" }
+            ]
+          },
+          "response": {
+            "type": "Long",
+            "description": "费用明细ID"
+          }
+        },
+        {
+          "name": "修改费用明细",
+          "method": "PUT",
+          "path": "/api/v1/accident/expense/update",
+          "permission": "accident:edit",
+          "request": {
+            "body": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "费用明细ID" },
+              { "name": "title", "javaType": "String", "required": false, "comment": "费用标题" },
+              { "name": "expenseDesc", "javaType": "String", "required": false, "comment": "费用说明" },
+              { "name": "amount", "javaType": "BigDecimal", "required": false, "comment": "费用金额" }
+            ]
+          },
+          "response": {
+            "type": "Boolean",
+            "description": "是否成功"
+          }
+        },
+        {
+          "name": "删除费用明细",
+          "method": "DELETE",
+          "path": "/api/v1/accident/expense/{id}",
+          "permission": "accident:edit",
+          "request": {
+            "path": [
+              { "name": "id", "javaType": "Long", "required": true, "comment": "费用明细ID" }
+            ]
+          },
+          "response": {
+            "type": "Boolean",
+            "description": "是否成功"
+          }
+        },
+        {
+          "name": "上传事故附件",
+          "method": "POST",
+          "path": "/api/v1/accident/attachment/upload",
+          "permission": "accident:edit",
+          "request": {
+            "body": [
+              { "name": "accidentId", "javaType": "Long", "required": true, "comment": "事故记录ID" },
+              { "name": "expenseId", "javaType": "Long", "required": false, "comment": "费用明细ID（费用凭证时填写）" },
+              { "name": "attachmentType", "javaType": "String", "required": true, "comment": "附件类型" }
+            ]
+          },
+          "response": {
+            "type": "String",
+            "description": "附件URL"
+          }
+        }
+      ]
+    }
+  ]
+}
