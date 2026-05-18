@@ -1,4 +1,4 @@
-# agent-auto-build-code 使用说明
+# claude-code-agent-coding 使用说明
 
 ## 简介
 
